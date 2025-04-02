@@ -15,32 +15,51 @@
 </head>
 
 <body>
+    @if (session('success'))
+    <div class="text-success">
+        {{ session('success') }}
+    </div>
+    @elseif($errors->any())
+        <!-- <ul> -->
+            @foreach($errors->all() as $error)
+            <!-- <li class="alert alert-danger"> -->
+
+               <p class="text-danger"> {{ $error }}</p>
+            <!-- </li> -->
+            @endforeach
+        <!-- </ul> -->
+        @endif
+
     @auth
     @include('nav.nav')
     <div class="container mt-5">
-        <div class="page-heading text-center mb-5"><h2>Change password</h2></div>
-<form class="card p-5 edit-profile-form" method="post" action="#" >
-  <div class="mb-3">
-    <label for="current-pswd" class="form-label">Current password</label>
-    <input type="password" class="form-control" name="current-pswd" aria-describedby="current-pswdHelp">
-    <div id="current-pswdHelp" class="form-text">You must have to fill your previous password first!</div>
-  </div>
-  <div class="mb-3">
-    <label for="new-pswd" class="form-label">New password</label>
-    <input type="password" class="form-control" name="new-pswd" aria-describedby="new-pswdHelp">
-    <!-- <div id="new-pswdHelp" class="form-text">Here you can add error or success message</div> -->
-  </div>
-  <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-  <div class="d-flex justify-content-between">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="button" class="btn btn-secondary" onclick="history.back();">Back</button>
-</div>
+        <div class="page-heading text-center mb-5">
+            <h2>Change password</h2>
+        </div>
+        <form class="card p-5 edit-profile-form" method="post" action="{{ route('update-password') }}">
+            @csrf
+            <div class="mb-3">
+                <label for="current-pswd" class="form-label">Current password</label>
+                <input type="password" class="form-control" name="current_pswd" aria-describedby="current-pswdHelp">
+                <div id="current-pswdHelp" class="form-text">You must have to fill your previous password first!</div>
+            </div>
+            <div class="mb-3">
+                <label for="new-pswd" class="form-label">New password</label>
+                <input type="password" class="form-control" name="new_pswd" aria-describedby="new-pswdHelp">
+                <!-- <div id="new-pswdHelp" class="form-text">Here you can add error or success message</div> -->
+            </div>
+            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" onclick="history.back();">Back</button>
+            </div>
 
-</form>
-</div>
-<!-- @ else
+        </form>
+    </div>
+    <!-- @ else
 <p class="text-danger">You must be logged in to access this form.</p> -->
-@endauth
+    @endauth
 
 </body>
+
 </html>
