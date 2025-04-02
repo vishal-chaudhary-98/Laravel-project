@@ -26,9 +26,9 @@
                         <img src="{{ auth()->user()->profile_picture ? asset('profiles/' . auth()->user()->profile_picture) : asset('uploads/1.jpg') }}" class="rounded-circle" alt="User Profile Picture" width="40" height="40">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Edit profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('edit/profile') }}">Edit personal details</a></li>
                         <li><a class="dropdown-item" href="#">Change name</a></li>
-                        <li><a class="dropdown-item" href="#">Change password</a></li>
+                        <li><a class="dropdown-item" href="{{ route('change/password') }}">Edit password</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
