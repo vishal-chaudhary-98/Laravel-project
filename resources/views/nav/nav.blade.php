@@ -27,7 +27,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ route('edit/profile') }}">Edit personal details</a></li>
-                        <li><a class="dropdown-item" href="#">Change name</a></li>
+                        <!-- <li><a class="dropdown-item" href="#">Change name</a></li> -->
                         <li><a class="dropdown-item" href="{{ route('change/password') }}">Edit password</a></li>
                         <li>
                             <hr class="dropdown-divider">

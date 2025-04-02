@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,4 +30,7 @@ Route::post('/logout',[UserController::class,'logout']);
 
 
 // ROUTES FOR ADMIN USER ONLY
-Route::view('/admin','admin.adminLogin');
+Route::view('/admin','admin.adminLogin')->name('admin');
+
+Route::post('admin/register',[AdminController::class,'register'])->name('register');
+Route::post('login/admin',[AdminController::class,'adminLogin'])->name('admin_login');
