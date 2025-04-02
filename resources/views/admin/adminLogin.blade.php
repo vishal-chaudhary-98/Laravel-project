@@ -36,7 +36,7 @@
     <!-- End success and error messages -->
 
     <div class="container mt-5">
-        <form class="custom-form" method="post" action="{{ route('user.login') }}">
+        <form class="custom-form" method="post" action="{{ route('admin_login') }}">
             @csrf
             <div class="mb-3">
                 <label for="userName" class="form-label">Admin ID</label>
