@@ -65,6 +65,29 @@ class UserController extends Controller
     }
 
     /**
+     *
+     * Edit profile method
+     */
+    public function editProfile() {
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors(['error','You must have to login first!']);
+        }
+        return view('user.forms.editProfile');
+    }
+
+    /**
+     *
+     * Edit password
+     */
+    public function editPassword() {
+        if(!Auth::check()) {
+            return redirect()->route('login')->withErrors(['error','You must have to login first!']);
+        }
+        return view('user.forms.changePassword');
+    }
+
+
+    /**
      * function for logout
      */
     public function logout(Request $request)

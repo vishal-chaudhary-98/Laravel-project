@@ -24,13 +24,14 @@
             {{ session('success') }}
         </span>
         @elseif($errors->any())
-        <ul>
+        <!-- <ul> -->
             @foreach($errors->all() as $error)
-            <li class="alert alert-danger">
-                {{ $error }}
-            </li>
+            <!-- <li class="alert alert-danger"> -->
+
+               <p class="text-danger"> {{ $error }}</p>
+            <!-- </li> -->
             @endforeach
-        </ul>
+        <!-- </ul> -->
         @endif
     </div>
     <!-- End success and error messages -->
