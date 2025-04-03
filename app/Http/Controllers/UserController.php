@@ -58,7 +58,8 @@ class UserController extends Controller
             return redirect()->back()->withErrors('Username ' . $request->userName . ' not found!');
         }
         if ($user && Hash::check($request->pswd, $user->password)) {
-            Auth::login($user);
+            Auth::guard('user')->login($user);
+            $request->session()->regenerate();
             return redirect('/dashboard')->with('success', 'welcome ' . $user->name);
         } else {
             return redirect('/login')->withErrors(['userName' => 'Credentials do not match.']);

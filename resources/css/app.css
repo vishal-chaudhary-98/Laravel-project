@@ -25,3 +25,27 @@
     width: 500px;
     margin: auto;
 }
+
+.admin-btn {
+    text-decoration: none;
+    margin-right: 10px;
+}
+/* unvisited link */
+.admin-btn:link {
+    color: red;
+  }
+
+  /* visited link */
+.admin-btn:visited {
+    color: green;
+  }
+
+  /* mouse over link */
+.admin-btn:hover {
+    color: hotpink;
+  }
+
+  /* selected link */
+.admin-btn:active {
+    color: blue;
+  }
