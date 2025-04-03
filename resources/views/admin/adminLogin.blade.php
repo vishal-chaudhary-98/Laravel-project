@@ -11,7 +11,10 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
     @vite ('resources/css/app.css')
+
     @include('headers.header')
+@include('admin.admin_headers.admin_headers')
+
 </head>
 
 <body>

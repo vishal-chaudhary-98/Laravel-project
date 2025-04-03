@@ -14,7 +14,7 @@ Route::post('/user-registration', [Usercontroller::class,'register'])->name('reg
 Route::view('/login','user.forms.login')->name('login');
 Route::post('/user-login',[UserController::class,'login'])->name('user.login');
 
-Route::view('/dashboard','user.auth.dashboard')->middleware('auth');
+Route::view('/dashboard','user.auth.dashboard')->middleware('auth:user');
 
 //  ROUTES FOR AUTHENTICATED USER SHOW VIEW ONLY
 Route::get('/edit/profile',[UserController::class, 'editProfilePage'])->name('edit/profile');
@@ -34,3 +34,5 @@ Route::view('/admin','admin.adminLogin')->name('admin');
 
 Route::post('admin/register',[AdminController::class,'register'])->name('register');
 Route::post('login/admin',[AdminController::class,'adminLogin'])->name('admin_login');
+
+Route::view('/ad','admin.authAdmin.dashboard')->name('admin_dashboard')->middleware('auth:admin');

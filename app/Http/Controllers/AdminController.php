@@ -16,10 +16,17 @@ class AdminController extends Controller
         ]);
         $admin = Admin::where('admin_id', $request->admin_id)->first();
         if (!$admin) {
-            return redirect()->back()->withErrors('Admin ID not matched!');
+            return redirect('admin')->withErrors('Admin ID not matched!');
         }
-        return view('admin.authAdmin.dashboard', compact('admin'));
+        if(!Hash::check($request->admin_password, $admin->admin_password)) {
+            return redirect('admin')->withErrors(['error' => 'Password not match!']);
     }
+    Auth::guard('admin')->login($admin);
+    return redirect()->route('admin_dashboard')->with([
+        'success'=> 'Login successful',
+        'admin'=> $admin
+    ]);
+}
 
     // public function register(Request $request) {
     //     // dd($request);
@@ -35,4 +42,9 @@ class AdminController extends Controller
     //     }
     //     return redirect()->route('admin')->withErrors(['error' , 'admin not registred']);
     //  }
+
+
+    public function logout(Request $request) {
+
+    }
 }
