@@ -32,7 +32,7 @@
     <!-- Defining success and error messages -->
 
     <div class="container mt-5">
-        <form class="custom-form" action="{{ route('register') }}" method="post" enctype="multipart/form-data">
+        <form class="custom-form" action="{{ route('register-user') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="nameHelp" class="form-label">Name</label>

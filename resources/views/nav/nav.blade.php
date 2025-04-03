@@ -24,7 +24,13 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <!-- User profile picture (circle) -->
-                        <img src="{{ auth()->user()->profile_picture ? asset('profiles/' . auth()->user()->profile_picture) : asset('uploads/1.jpg') }}" class="rounded-circle" alt="User Profile Picture" width="40" height="40">
+                        @if(auth()->check())
+    <img src="{{ auth()->user()->profile_picture ? asset('profiles/' . auth()->user()->profile_picture) : asset('uploads/1.jpg') }}" class="rounded-circle" alt="User Profile Picture" width="40" height="40">
+@else
+    <img src="{{ asset('uploads/1.jpg') }}" class="rounded-circle" alt="Default Profile Picture" width="40" height="40">
+@endif
+
+
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ route('edit/profile') }}">Edit personal details</a></li>
@@ -56,8 +62,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <!-- User profile picture (circle) -->
-                        <img src="{{ auth()->user()->profile_picture ? asset('profiles/' . auth()->user()->profile_picture) : asset('uploads/1.jpg') }}" class="rounded-circle" alt="User Profile Picture" width="40" height="40">
-                    </a>
+                        @if(auth()->check())
+    <img src="{{ auth()->user()->profile_picture ? asset('profiles/' . auth()->user()->profile_picture) : asset('uploads/1.jpg') }}" class="rounded-circle" alt="User Profile Picture" width="40" height="40">
+@else
+    <img src="{{ asset('uploads/1.jpg') }}" class="rounded-circle" alt="Default Profile Picture" width="40" height="40">
+@endif
+</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ route('edit/profile') }}">Edit personal details</a></li>
                         <!-- <li><a class="dropdown-item" href="#">Change name</a></li> -->
