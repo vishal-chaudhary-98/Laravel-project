@@ -49,3 +49,7 @@
 .admin-btn:active {
     color: blue;
   }
+
+  .success-error {
+    z-index: 90;
+  }

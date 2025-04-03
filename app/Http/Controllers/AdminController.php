@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,11 +22,30 @@ class AdminController extends Controller
         if(!Hash::check($request->admin_password, $admin->admin_password)) {
             return redirect('admin')->withErrors(['error' => 'Password not match!']);
     }
+
     Auth::guard('admin')->login($admin);
     return redirect()->route('admin_dashboard')->with([
         'success'=> 'Login successful',
         'admin'=> $admin
     ]);
+}
+
+public function adminDashboard (){
+    if(!Auth::guard('admin')->check()){
+        return redirect('/admin')->withErrors(['error' => 'You must have to login first!']);
+    }
+    $admin = Auth::guard('admin')->user();
+    $users = User::all();
+    return view('admin.authAdmin.dashboard', compact('admin', 'users'));
+}
+
+public function viewUsers(Request $request) {
+    if (!Auth::guard('admin')->check()){
+        return redirect('/login/admin')->with('message','Login first!');
+    }
+    $users = User::all();
+    return view('admin.authAdmin.view_users', compact('users'));
+
 }
 
     // public function register(Request $request) {
@@ -45,6 +65,10 @@ class AdminController extends Controller
 
 
     public function logout(Request $request) {
-
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect ('/admin');
     }
 }
+

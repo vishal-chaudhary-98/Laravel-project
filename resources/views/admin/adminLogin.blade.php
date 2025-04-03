@@ -55,10 +55,7 @@
                 <span class="alert text-danger">{{ $message }} </span>
                 @enderror
             </div>
-            <div class="d-flex  justify-content-between">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <p>If you are a new user <a href="/register"> Register here</a></p>
-            </div>
         </form>
     </div>
 </body>
