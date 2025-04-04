@@ -30,92 +30,56 @@
                             <h5 class="card-header">All users</h5>
                             <div class="card-body">
                                 <div class="table-responsive">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Sr.no</th>
-            <th scope="col">Name</th>
-            <th scope="col">User name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Profile picture</th>
-            <th scope="col" colspan="2" class="text-center">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if($users->count() > 0)
-            @foreach ($users as $key => $user)
-                <tr>
-                    <th scope="row">{{ $key + 1 }}</th>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->userName }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        @if($user->profile_picture)
-                            <img src="{{ asset('profiles/' . $user->profile_picture) }}"
-                                 alt="Profile Picture"
-                                 width="40"
-                                 class="rounded-circle">
-                        @else
-                            No Image
-                        @endif
-                    </td>
-                    <td><a href="#" class="btn btn-sm btn-primary">Edit</a></td>
-                    <form action="#" method="post" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <td>
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');">
-                                Delete
-                            </button>
-                        </td>
-                    </form>
-                </tr>
-            @endforeach
-        @else
-            <tr>
-                <td colspan="7" class="text-center">No users found.</td>
-            </tr>
-        @endif
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Sr.no</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">User name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Profile</th>
+                                                <th scope="col">Created at</th>
+                                                <th scope="col" colspan="2" class="text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if($users->count() > 0)
+                                            @foreach ($users as $key => $user)
+                                            <tr>
+                                                <th scope="row">{{ $key + 1 }}</th>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->userName }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>
+                                                    @if($user->profile_picture)
+                                                    <img src="{{ asset('profiles/' . $user->profile_picture) }}"
+                                                        alt="Profile Picture"
+                                                        width="40"
+                                                        class="rounded-circle">
+                                                    @else
+                                                    No Image
+                                                    @endif
+                                                <td>{{ $user->created_at->format('Y-m-d H:i:s') }}</td>
+                                                </td>
+                                                <td><a href="#" class="btn btn-sm btn-primary">Edit</a></td>
+                                                <form action="#" method="post" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <td>
+                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');">
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                            @endforeach
+                                            @else
+                                            <tr>
+                                                <td colspan="7" class="text-center">No users found.</td>
+                                            </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
                                 </div>
                                 @if($users->count() > 0 )
                                 <a href="#" class="btn btn-block btn-light">View all</a>
