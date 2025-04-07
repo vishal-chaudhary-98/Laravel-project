@@ -13,7 +13,8 @@ class Admin extends Authenticatable
     protected $guard = 'admin';
 
     protected $fillable = [
-        'admin_id', 'admin_password',
+        'admin_id',
+        'admin_password',
     ];
 
     protected $hidden = [
@@ -26,4 +27,3 @@ class Admin extends Authenticatable
     //     return $this->admin_password;
     // }
 }
-
