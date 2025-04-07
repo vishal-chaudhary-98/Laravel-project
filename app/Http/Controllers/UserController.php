@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -17,10 +18,10 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'userName' => 'required|string|min:4|max:20|unique:users',
+            'userName' => 'required|string|min:4|max:25|unique:users',
             'email' => 'required|string|unique:users',
             'profile_picture' => 'nullable|image|mimes:png,jpg,jpeg,gif',
-            'pswd' => 'required|min:5|max:10|confirmed',
+            'pswd' => 'required|min:5|max:25|confirmed',
         ]);
         $imagePath = null;
         if ($request->hasFile('profile_picture')) {
@@ -28,6 +29,8 @@ class UserController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('profiles'), $imageName);
             $imagePath = $imageName;
+            // $image->storeAs('profiles', $imageName, 'public');
+
         }
         $hashed = Hash::make($request->pswd);
         $user = new User();
@@ -38,7 +41,7 @@ class UserController extends Controller
         $user->password = $hashed;
         $registred = $user->save();
         if ($registred) {
-            return redirect('/login')->with('success', 'You are registred sucessfully!');
+            return redirect('/user/login')->with('success', 'You are registred sucessfully!');
         } else {
             return redirect()->back()->withErrors('Not registred! Try again later');
         }
@@ -50,21 +53,32 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'userName' => 'required|string|min:4|max:20',
-            'pswd' => 'required|string|min:5|max:10',
+            'userName' => 'required|string|min:4|max:25',
+            'pswd' => 'required|string|min:5|max:25',
         ]);
         $user = User::where('userName', $request->userName)->first();
         if (!$user) {
             return redirect()->back()->withErrors('Username ' . $request->userName . ' not found!');
         }
         if ($user && Hash::check($request->pswd, $user->password)) {
-            Auth::guard('user')->login($user);
+            Auth::login($user);
             $request->session()->regenerate();
-            return redirect('/dashboard')->with('success', 'welcome ' . $user->name);
+            return redirect('/user/dashboard')->with('success', 'welcome ' . $user->name);
         } else {
-            return redirect('/login')->withErrors(['userName' => 'Credentials do not match.']);
+            return redirect('/user/login')->withErrors(['userName' => 'Credentials do not match.']);
         }
     }
+
+
+    /**
+     * Dashboard for user
+     */
+    public function dashboard() {
+        $user = Auth::user();
+        return view('user.auth.dashboard', compact('user'));
+    }
+
+
 
     /**
      *
@@ -72,7 +86,8 @@ class UserController extends Controller
      */
     public function editProfilePage() {
         if (!Auth::check()) {
-            return redirect()->route('login')->withErrors(['error','You must have to login first!']);
+            // return redirect()->route('login')->withErrors(['error','You must have to login first!']);
+            throw new NotFoundHttpException();
         }
         $user = Auth::user();
         return view('user.forms.editProfile', compact('user'));
@@ -82,12 +97,11 @@ class UserController extends Controller
     public function updateProfile(Request $request) {
         $user = Auth::user();
         $request->validate([
-            'name' => 'nullable|string|min:5|max:15',
-            'userName' => 'nullable|string|min:5|max:15|unique:users,userName,'.$user->id,
-            'email' => 'nullable|string|min:5|max:15|unique:users,email,'.$user->id,
+            'name' => 'nullable|string|min:5|max:25',
+            'userName' => 'nullable|string|min:5|max:25|unique:users,userName,'.$user->id,
+            'email' => 'nullable|string|min:5|max:50|unique:users,email,'.$user->id,
             'profile' => 'nullable|file|mimes:jpg,png,jpeg,gif',
         ]);
-
         //The correct syntax for the unique rule is:
         //unique:<table>,<column>,<ignore_id>
 
@@ -121,16 +135,18 @@ class UserController extends Controller
      */
     public function editPasswordPage() {
         if(!Auth::check()) {
-            return redirect()->route('login')->withErrors(['error','You must have to login first!']);
+            // return redirect()->route('login')->withErrors(['error','You must have to login first!']);
+            throw new NotFoundHttpException();
         }
         return view('user.forms.changePassword');
     }
 
     public function updatePassword(Request $request) {
         $user = Auth::user();
+        // dd($user);
         $request->validate([
-            'current_pswd' => 'required|string|min:5|max:15',
-            'new_pswd' => 'required|string|min:5|max:15',
+            'current_pswd' => 'required|string|min:5|max:25',
+            'new_pswd' => 'required|string|min:5|max:25',
         ]);
         if (!Hash::check($request->current_pswd, $user->password)){
             return redirect()->route('change/password')->withErrors(['error' => 'Your current password is incorrect! Try again.']);
@@ -149,6 +165,6 @@ class UserController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/user/login');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
 {
@@ -32,7 +33,8 @@ class AdminController extends Controller
 
 public function adminDashboard (){
     if(!Auth::guard('admin')->check()){
-        return redirect('/admin')->withErrors(['error' => 'You must have to login first!']);
+        // return redirect('/admin')->withErrors(['error' => 'You must have to login first!']);
+            throw new NotFoundHttpException();
     }
     $admin = Auth::guard('admin')->user();
     $users = User::all();
@@ -41,28 +43,13 @@ public function adminDashboard (){
 
 public function viewUsers(Request $request) {
     if (!Auth::guard('admin')->check()){
-        return redirect('/login/admin')->with('message','Login first!');
+        // return redirect('/login/admin')->with('message','Login first!');
+            throw new NotFoundHttpException();
     }
     $users = User::all();
     return view('admin.authAdmin.view_users', compact('users'));
 
 }
-
-    // public function register(Request $request) {
-    //     // dd($request);
-    //     $request->validate ([
-    //         'admin_id' => 'required|string|min:5|max:15',
-    //         'admin_password' => 'required|string|min:5|max:15',
-    //     ]);
-    //     $admin = new Admin();
-    //     $admin->admin_id = $request->admin_id;
-    //     $admin->admin_password = Hash::make($request->admin_password);
-    //     if ($admin->save()) {
-    //         return redirect()->route('admin')->with('success','Admin registred sucessfully!');
-    //     }
-    //     return redirect()->route('admin')->withErrors(['error' , 'admin not registred']);
-    //  }
-
 
     public function logout(Request $request) {
         Auth::guard('admin')->logout();

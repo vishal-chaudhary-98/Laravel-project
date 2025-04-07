@@ -43,10 +43,16 @@
                         <div class="card">
                             <h5 class="card-header">Total users</h5>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $users->count() }}</h5>
-                                <p class="card-text">{{ $users->created_at }}Feb 1 - Apr 1, United States</p>
-                                <p class="card-text text-success">18.2% increase since last month</p>
+                                <h5 class="card-title">Total users: {{ $users->count() }}</h5>
+                                @foreach ($users as $user)
+                                <p class="card-text">{{ $user->name }}<br>
+                                <span class="card-text text-success">{{ $user->created_at->format('Y-m-d H:i:s') }}, India</span></p>
+                                <!-- <p class="card-text text-success">18.2% increase since last month</p> -->
+                                @endforeach
                             </div>
+                            @if($users->count() > 0 )
+                                <a href="#" class="btn btn-block btn-light">View all</a>
+                                @endif
                         </div>
                     </div>
                     <div class="col-12 col-md-6 mb-4 mb-lg-0 col-lg-3">
